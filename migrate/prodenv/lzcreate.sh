@@ -81,3 +81,7 @@ az network vnet subnet create -g $rg --vnet-name $rg-vnet -n AzureBastionSubnet 
 az network public-ip create -g $rg -n Bastion-PIP --sku Standard
     
 az network bastion create --location $location --name $rg-bastionhost --public-ip-address $rg-Bastion-PIP --resource-group $rg --vnet-name $rg-vnet
+
+#az group delete --name Target
+#az group delete --name Source
+#az group delete --name AzureMigrate
