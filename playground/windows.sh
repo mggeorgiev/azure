@@ -5,7 +5,7 @@ az account list-locations --output table
 #Create Azure Migrate resource group
 source windows.cfg
 
-az group create --name $rg --location $location
+az group create --name {$rg} --location $location
 
 #NW
 az network vnet create --address-prefixes 10.$nwindex.0.0/16 --name $rg-vnet --resource-group $rg --subnet-name default --subnet-prefixes 10.$nwindex.0.0/24
