@@ -5,7 +5,6 @@ az account list-locations --output table
 #Load variables
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 cd -- $DIR
-. ../config/aks.config
 
 source windows.cfg
 
