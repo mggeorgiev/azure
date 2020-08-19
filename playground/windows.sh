@@ -19,9 +19,9 @@ az network bastion create --location $location --name $rg-bastionhost --public-i
 
 az network public-ip create -g $rg -n AzureMigratPhysicalAppliance-PIP --sku Standard
 
-az vm create --name AzureMigratPhysicalAppliance \
+az vm create --name $vmname \
     --resource-group $rg \
-    --computer-name azmgrpa \
+    --computer-name $computer-name \
     --image win2016datacenter  \
     --authentication-type password \
     --admin-username azureuser \
@@ -29,5 +29,5 @@ az vm create --name AzureMigratPhysicalAppliance \
     --license-type Windows_Server \
     --vnet-name $rg-vnet \
     --subnet default \
-    --public-ip-address AzureMigratPhysicalAppliance-PIP \
+    --public-ip-address $vmname-PIP \
     --size Standard_D2s_v3 
