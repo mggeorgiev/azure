@@ -21,11 +21,11 @@ az network public-ip create -g $rg -n AzureMigratPhysicalAppliance-PIP --sku Sta
 
 az vm create --name $vmname \
     --resource-group $rg \
-    --computer-name $computer-name \
+    --computer-name $computername \
     --image win2016datacenter  \
     --authentication-type password \
-    --admin-username azureuser \
-    --admin-password 4wPcRFreYIVfCUYros9a \
+    --admin-username $adminusername \
+    --admin-password $adminpassword \
     --license-type Windows_Server \
     --vnet-name $rg-vnet \
     --subnet default \
