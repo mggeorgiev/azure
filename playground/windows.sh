@@ -2,9 +2,14 @@
 
 az account list-locations --output table
 
-#Create Azure Migrate resource group
+#Load variables
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+cd -- $DIR
+. ../config/aks.config
+
 source windows.cfg
 
+#Create Azure Migrate resource group
 az group create --name {$rg} --location {$location}
 
 #NW
