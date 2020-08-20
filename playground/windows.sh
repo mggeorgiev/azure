@@ -21,7 +21,7 @@ az network public-ip create -g $rg -n $rg-Bastion-PIP --sku Standard
     
 az network bastion create --location $location --name $rg-bastionhost --public-ip-address $rg-Bastion-PIP --resource-group $rg --vnet-name $rg-vnet
 
-az network public-ip create -g $rg -n AzureMigratPhysicalAppliance-PIP --sku Standard
+az network public-ip create -g $rg -n $vmname-PIP --sku Standard
 
 az vm create --name $vmname \
     --resource-group $rg \
