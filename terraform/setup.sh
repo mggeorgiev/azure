@@ -30,3 +30,31 @@ az storage container create --name $CONTAINER_NAME --account-name $STORAGE_ACCOU
 
 echo "storage_account_name: ${STORAGE_ACCOUNT_NAME}"
 echo "container_name: ${CONTAINER_NAME}"
+echo "key_vault_name: ${STORAGE_ACCOUNT_NAME}"
+echo "Secret name: terraform-backend-key"
+
+#Create a directory if it does not exists
+dir=~/clouddrive/terraformbackend
+mkdir -p $dir
+
+# if [[ ! -e $dir ]]; then
+#     mkdir $dir
+# elif [[ ! -d $dir ]]; then
+#     echo "$dir already exists but is not a directory" 1>&2
+# fi
+
+touch ${dir}/terraformbackend.tf
+
+echo 'terraform {' > ${dir}/terraformbackend.tf
+echo '  backend "azurerm" {' >> ${dir}/terraformbackend.tf
+echo "    resource_group_name   = \"${RESOURCE_GROUP_NAME}\"" >> ${dir}/terraformbackend.tf
+echo "    storage_account_name  = \"${STORAGE_ACCOUNT_NAME}\"" >> ${dir}/terraformbackend.tf
+echo "    container_name        = \"${CONTAINER_NAME}\"" >> ${dir}/terraformbackend.tf
+echo '    key                   = "terraform.tfstate"' >> ${dir}/terraformbackend.tf
+echo '  }' >> ${dir}/terraformbackend.tf
+echo '}' >> ${dir}/terraformbackend.tf
+echo '' >> ${dir}/terraformbackend.tf
+echo 'resource "azurerm_resource_group" "state-demo-secure" {' >> ${dir}/terraformbackend.tf
+echo '  name     = "state-demo"' >> ${dir}/terraformbackend.tf
+echo "  location = \"${location}\"" >> ${dir}/terraformbackend.tf
+echo '}' >> ${dir}/terraformbackend.tf
