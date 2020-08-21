@@ -58,3 +58,8 @@ echo 'resource "azurerm_resource_group" "state-demo-secure" {' >> ${dir}/terrafo
 echo '  name     = "state-demo"' >> ${dir}/terraformbackend.tf
 echo "  location = \"${location}\"" >> ${dir}/terraformbackend.tf
 echo '}' >> ${dir}/terraformbackend.tf
+echo '' >> ${dir}/terraformbackend.tf
+echo 'provider "azurerm" {' >> ${dir}/terraformbackend.tf
+echo '  version = "~>2.0"' >> ${dir}/terraformbackend.tf
+echo '  features {}' >> ${dir}/terraformbackend.tf
+echo '}' >> ${dir}/terraformbackend.tf
