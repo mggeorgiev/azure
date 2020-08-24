@@ -7,13 +7,13 @@
 #}
 
 # Create a resource group if it doesn't exist
-resource "azurerm_resource_group" "playgroundgroup" {
-    name     = "playground"
-    location = "eastus"
+resource "azurerm_resource_group" var.resource_group {
+    name     = var.resource_group
+    location = var.location
 
     tags = {
         environment = "playground",
-        billing-code = 010
+        billing-code = "010"
     }
 }
 
@@ -26,7 +26,7 @@ resource "azurerm_virtual_network" "playgroundnetwork" {
 
     tags = {
         environment = "playground",
-        billing-code = 010
+        billing-code = "010"
     }
 }
 
@@ -55,8 +55,34 @@ resource "azurerm_public_ip" "linuxpublicip" {
 
     tags = {
         environment = "playground",
-        billing-code = 010
+        billing-code = "010"
     }
+}
+
+# Create public IPs
+resource "azurerm_public_ip" "bastionpublicip" {
+    name                = "Bastion-PIP"
+    location            = azurerm_resource_group.playgroundgroup.location
+    resource_group_name = azurerm_resource_group.playgroundgroup.name
+    allocation_method   = "Static"
+    sku                 = "Standard"
+
+    tags = {
+        environment = "playground",
+        billing-code = "010"
+    }
+}
+
+resource "azurerm_bastion_host" "playgroundbastionhost" {
+  name                = "PlaygroundBastion"
+  location            = azurerm_resource_group.playgroundgroup.location
+  resource_group_name = azurerm_resource_group.playgroundgroup.name
+
+  ip_configuration {
+    name                 = "configuration"
+    subnet_id            = azurerm_subnet.playgroundazurebastionhostsubnet.id
+    public_ip_address_id = azurerm_public_ip.bastionpublicip.id
+  }
 }
 
 # Create Network Security Group and rule
@@ -79,7 +105,7 @@ resource "azurerm_network_security_group" "playgroundnsg" {
 
     tags = {
         environment = "playground",
-        billing-code = 010
+        billing-code = "010"
     }
 }
 
@@ -98,7 +124,7 @@ resource "azurerm_network_interface" "linuxvmnic" {
 
     tags = {
         environment = "playground",
-        billing-code = 010
+        billing-code = "010"
     }
 }
 
@@ -128,7 +154,7 @@ resource "azurerm_storage_account" "playgroundstorageaccount" {
 
     tags = {
         environment = "plyground",
-        billing-code = 010
+        billing-code = "010"
     }
 }
 
@@ -175,6 +201,6 @@ resource "azurerm_linux_virtual_machine" "myterraformvm" {
 
     tags = {
         environment = "plyground",
-        billing-code = 010
+        billing-code = "010"
     }
 }
