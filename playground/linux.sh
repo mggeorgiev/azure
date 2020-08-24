@@ -27,12 +27,17 @@ az network bastion create --location $location --name $rg-bastionhost --public-i
 az network public-ip create -g $rg -n $vmname-PIP --sku Standard
 
 #Compute
-az vm create \
+az vm create --name $vmname \
     --resource-group $rg \
-    --name $vmname \
-    --image $vmimage \
+    --computer-name $computername \
+    --image $vmimage  \
+    --authentication-type password \
     --admin-username $adminusername \
-    --generate-ssh-keys #  --data-disk-sizes-gb 128 128
+    --admin-password $adminpassword \
+    --vnet-name $rg-vnet \
+    --subnet default \
+    --public-ip-address $vmname-PIP \
+    --size Standard_D2s_v3 
 
 #Management
 az vm list-ip-addresses --resource-group $rg --name $vmname --output table
