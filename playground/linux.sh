@@ -21,6 +21,14 @@ az vm create \
     --admin-username $adminusername \
     --generate-ssh-keys #  --data-disk-sizes-gb 128 128
 
+#Create Azure Bastion
+az network vnet subnet create -g $rg --vnet-name $rg-vnet -n AzureBastionSubnet \
+    --address-prefixes 10.$nwindex.1.0/24 #--network-security-group $rg-Nsg --route-table {$rg}RouteTable
+
+az network public-ip create -g $rg -n $rg-Bastion-PIP --sku Standard
+    
+az network bastion create --location $location --name $rg-bastionhost --public-ip-address $rg-Bastion-PIP --resource-group $rg --vnet-name $rg-vnet
+
 #Management
 az vm list-ip-addresses --resource-group $rg --name $vmname --output table
     
