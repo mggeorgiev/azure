@@ -7,7 +7,7 @@
 #}
 
 # Create a resource group if it doesn't exist
-resource "azurerm_resource_group" [var.resource_group] {
+resource "azurerm_resource_group" playgroundgroup {
     name     = [var.resource_group]
     location = [var.location]
 
