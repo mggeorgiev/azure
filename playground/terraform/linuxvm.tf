@@ -31,7 +31,7 @@ resource "azurerm_virtual_network" "playgroundnetwork" {
 }
 
 # Create subnet
-resource "azurerm_subnet" "myplaygroundsubnet" {
+resource "azurerm_subnet" "playgroundsubnet" {
     name                 = "playground-subnet"
     resource_group_name  = azurerm_resource_group.playgroundgroup.name
     virtual_network_name = azurerm_virtual_network.playgroundnetwork.name
@@ -39,16 +39,16 @@ resource "azurerm_subnet" "myplaygroundsubnet" {
 }
 
 # Create subnet for AzureBastionHost
-resource "azurerm_subnet" "myplaygroundazurebastionhostsubnet" {
-    name                 = "AzureBastionHost"
+resource "azurerm_subnet" "playgroundazurebastionhostsubnet" {
+    name                 = "AzureBastionSubnet"
     resource_group_name  = azurerm_resource_group.playgroundgroup.name
     virtual_network_name = azurerm_virtual_network.playgroundnetwork.name
     address_prefixes       = ["10.10.2.0/24"]
 }
 
 # Create public IPs
-resource "azurerm_public_ip" "mylinuxpublicip" {
-    name                         = "myLinuxVM-PIP"
+resource "azurerm_public_ip" "linuxpublicip" {
+    name                         = "LinuxVM-PIP"
     location                     = "eastus"
     resource_group_name          = azurerm_resource_group.playgroundgroup.name
     allocation_method            = "Dynamic"
@@ -84,16 +84,16 @@ resource "azurerm_network_security_group" "playgroundnsg" {
 }
 
 # Create network interface
-resource "azurerm_network_interface" "mylinuxvmnic" {
+resource "azurerm_network_interface" "linuxvmnic" {
     name                      = "linuxVM-NIC"
     location                  = "eastus"
     resource_group_name       = azurerm_resource_group.playgroundgroup.name
 
     ip_configuration {
-        name                          = "myNicConfiguration"
-        subnet_id                     = azurerm_subnet.myplaygroundsubnet.id
+        name                          = "linuxvmNicConfiguration"
+        subnet_id                     = azurerm_subnet.playgroundsubnet.id
         private_ip_address_allocation = "Dynamic"
-        public_ip_address_id          = azurerm_public_ip.mylinuxpublicip.id
+        public_ip_address_id          = azurerm_public_ip.linuxpublicip.id
     }
 
     tags = {
@@ -104,7 +104,7 @@ resource "azurerm_network_interface" "mylinuxvmnic" {
 
 # Connect the security group to the network interface
 resource "azurerm_network_interface_security_group_association" "example" {
-    network_interface_id      = azurerm_network_interface.mylinuxvmnic.id
+    network_interface_id      = azurerm_network_interface.linuxvmnic.id
     network_security_group_id = azurerm_network_security_group.playgroundnsg.id
 }
 
@@ -119,7 +119,7 @@ resource "random_id" "randomId" {
 }
 
 # Create storage account for boot diagnostics
-resource "azurerm_storage_account" "mystorageaccount" {
+resource "azurerm_storage_account" "playgroundstorageaccount" {
     name                        = "diag${random_id.randomId.hex}"
     resource_group_name         = azurerm_resource_group.playgroundgroup.name
     location                    = "eastus"
@@ -141,10 +141,10 @@ output "tls_private_key" { value = "${tls_private_key.example_ssh.private_key_pe
 
 # Create virtual machine
 resource "azurerm_linux_virtual_machine" "myterraformvm" {
-    name                  = "myVM"
+    name                  = "linuxvm"
     location              = "eastus"
     resource_group_name   = azurerm_resource_group.playgroundgroup.name
-    network_interface_ids = [azurerm_network_interface.mylinuxvmnic.id]
+    network_interface_ids = [azurerm_network_interface.linuxvmnic.id]
     size                  = "Standard_DS1_v2"
 
     os_disk {
@@ -170,7 +170,7 @@ resource "azurerm_linux_virtual_machine" "myterraformvm" {
     }
 
     boot_diagnostics {
-        storage_account_uri = azurerm_storage_account.mystorageaccount.primary_blob_endpoint
+        storage_account_uri = azurerm_storage_account.playgroundstorageaccount.primary_blob_endpoint
     }
 
     tags = {
