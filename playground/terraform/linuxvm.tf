@@ -22,7 +22,7 @@ resource "azurerm_virtual_network" "myplaygroundnetwork" {
     name                = "playground-vnet"
     address_space       = ["10.10.0.0/16"]
     location            = "eastus"
-    resource_group_name = azurerm_resource_group.myterraformgroup.name
+    resource_group_name = azurerm_resource_group.myplaygroundgroup.name
 
     tags = {
         environment = "playground",
@@ -33,15 +33,15 @@ resource "azurerm_virtual_network" "myplaygroundnetwork" {
 # Create subnet
 resource "azurerm_subnet" "myplaygroundsubnet" {
     name                 = "playground-subnet"
-    resource_group_name  = azurerm_resource_group.myterraformgroup.name
-    virtual_network_name = azurerm_virtual_network.myterraformnetwork.name
+    resource_group_name  = azurerm_resource_group.myplaygroundgroup.name
+    virtual_network_name = azurerm_virtual_network.myplaygroundgroup.name
     address_prefixes       = ["10.10.1.0/24"]
 }
 
 # Create subnet for AzureBastionHost
 resource "azurerm_subnet" "myplaygroundazurebastionhostsubnet" {
     name                 = "AzureBastionHost"
-    resource_group_name  = azurerm_resource_group.myterraformgroup.name
+    resource_group_name  = azurerm_resource_group.myplaygroundgroup.name
     virtual_network_name = azurerm_virtual_network.myterraformnetwork.name
     address_prefixes       = ["10.10.2.0/24"]
 }
@@ -50,7 +50,7 @@ resource "azurerm_subnet" "myplaygroundazurebastionhostsubnet" {
 resource "azurerm_public_ip" "mylinuxpublicip" {
     name                         = "myLinuxVM-PIP"
     location                     = "eastus"
-    resource_group_name          = azurerm_resource_group.myterraformgroup.name
+    resource_group_name          = azurerm_resource_group.myplaygroundgroup.name
     allocation_method            = "Dynamic"
 
     tags = {
@@ -63,7 +63,7 @@ resource "azurerm_public_ip" "mylinuxpublicip" {
 resource "azurerm_network_security_group" "myplaygroundnsg" {
     name                = "playground-NSG"
     location            = "eastus"
-    resource_group_name = azurerm_resource_group.myterraformgroup.name
+    resource_group_name = azurerm_resource_group.myplaygroundgroup.name
     
     security_rule {
         name                       = "SSH"
@@ -87,7 +87,7 @@ resource "azurerm_network_security_group" "myplaygroundnsg" {
 resource "azurerm_network_interface" "mylinuxvmnic" {
     name                      = "linuxVM-NIC"
     location                  = "eastus"
-    resource_group_name       = azurerm_resource_group.myterraformgroup.name
+    resource_group_name       = azurerm_resource_group.myplaygroundgroup.name
 
     ip_configuration {
         name                          = "myNicConfiguration"
@@ -112,7 +112,7 @@ resource "azurerm_network_interface_security_group_association" "example" {
 resource "random_id" "randomId" {
     keepers = {
         # Generate a new ID only when a new resource group is defined
-        resource_group = azurerm_resource_group.myterraformgroup.name
+        resource_group = azurerm_resource_group.myplaygroundgroup.name
     }
     
     byte_length = 8
@@ -121,7 +121,7 @@ resource "random_id" "randomId" {
 # Create storage account for boot diagnostics
 resource "azurerm_storage_account" "mystorageaccount" {
     name                        = "diag${random_id.randomId.hex}"
-    resource_group_name         = azurerm_resource_group.myterraformgroup.name
+    resource_group_name         = azurerm_resource_group.myplaygroundgroup.name
     location                    = "eastus"
     account_tier                = "Standard"
     account_replication_type    = "LRS"
@@ -143,7 +143,7 @@ output "tls_private_key" { value = "${tls_private_key.example_ssh.private_key_pe
 resource "azurerm_linux_virtual_machine" "myterraformvm" {
     name                  = "myVM"
     location              = "eastus"
-    resource_group_name   = azurerm_resource_group.myterraformgroup.name
+    resource_group_name   = azurerm_resource_group.myplaygroundgroup.name
     network_interface_ids = [azurerm_network_interface.myterraformnic.id]
     size                  = "Standard_DS1_v2"
 
