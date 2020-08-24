@@ -18,6 +18,6 @@ resource "azurerm_storage_account" "playgroundstorageaccount" {
 
     tags = {
         environment = var.environementtag,
-        billing-code = "010"
+        billing-code = var.billing-code
     }
 }
