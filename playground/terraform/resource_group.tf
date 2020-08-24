@@ -1,6 +1,6 @@
 resource "azurerm_resource_group" playgroundgroup {
-    name     = [var.resource_group]
-    location = [var.location]
+    name     = var.resource_group
+    location = var.location
 
     tags = {
         environment = var.environementtag,
