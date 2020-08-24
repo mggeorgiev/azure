@@ -14,20 +14,25 @@ az vm image list --output table
 az vm image list --offer UbuntuServer --all --output table
 az vm list-sizes --location $location --output table
 
-az vm create \
-    --resource-group $rg \
-    --name $vmname \
-    --image $vmimage \
-    --admin-username $adminusername \
-    --generate-ssh-keys #  --data-disk-sizes-gb 128 128
+#NW
+az network vnet create --address-prefixes 10.$nwindex.0.0/16 --name $rg-vnet --resource-group $rg --subnet-name default --subnet-prefixes 10.$nwindex.0.0/24
 
-#Create Azure Bastion
 az network vnet subnet create -g $rg --vnet-name $rg-vnet -n AzureBastionSubnet \
     --address-prefixes 10.$nwindex.1.0/24 #--network-security-group $rg-Nsg --route-table {$rg}RouteTable
 
 az network public-ip create -g $rg -n $rg-Bastion-PIP --sku Standard
     
 az network bastion create --location $location --name $rg-bastionhost --public-ip-address $rg-Bastion-PIP --resource-group $rg --vnet-name $rg-vnet
+
+az network public-ip create -g $rg -n $vmname-PIP --sku Standard
+
+#Compute
+az vm create \
+    --resource-group $rg \
+    --name $vmname \
+    --image $vmimage \
+    --admin-username $adminusername \
+    --generate-ssh-keys #  --data-disk-sizes-gb 128 128
 
 #Management
 az vm list-ip-addresses --resource-group $rg --name $vmname --output table
