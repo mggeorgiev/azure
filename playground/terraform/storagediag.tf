@@ -10,7 +10,7 @@ resource "random_id" "randomId" {
 
 # Create storage account for boot diagnostics
 resource "azurerm_storage_account" "playgroundstorageaccount" {
-    name                        = "diag${random_id.randomId.hex}"
+    name                        = "diag${var.resource_group}" #"diag${random_id.randomId.hex}"
     resource_group_name         = azurerm_resource_group.playgroundgroup.name
     location                    = var.location
     account_tier                = "Standard"
