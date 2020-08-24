@@ -15,7 +15,7 @@ az vm image list --offer UbuntuServer --all --output table
 az vm list-sizes --location $location --output table
 
 az vm create \
-    --resource-group myResourceGroupVM \
+    --resource-group $rg \
     --name $vmname \
     --image $vmimage \
     --admin-username $adminusername \
