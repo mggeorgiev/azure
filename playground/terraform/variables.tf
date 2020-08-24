@@ -24,8 +24,8 @@ variable "regions" {
     type = map
     default = {
         "East US"       = "eastus"
-        "West Europe"   = "uk-lon1"
-        "frankfurt"     = "de-fra1"
+        "West Europe"   = "westeurope"
+        "Central US"     = "centralus"
         "helsinki1"     = "fi-hel1"
         "helsinki2"     = "fi-hel2"
         "chicago"       = "us-chi1"
@@ -42,6 +42,11 @@ variable "vmnamelinux" {
 variable "vmnamewindows" {
     type = string
     default = "windows"
+}
+
+variable "admin_password" {
+    type    = string
+    default = "4wPcRFreYIVfCUYros9a"
 }
 
 variable "users" {
