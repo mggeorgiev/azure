@@ -7,7 +7,7 @@
 #}
 
 # Create a resource group if it doesn't exist
-resource "azurerm_resource_group" "myplaygroundgroup" {
+resource "azurerm_resource_group" "playgroundgroup" {
     name     = "playground"
     location = "eastus"
 
@@ -18,11 +18,11 @@ resource "azurerm_resource_group" "myplaygroundgroup" {
 }
 
 # Create virtual network
-resource "azurerm_virtual_network" "myplaygroundnetwork" {
+resource "azurerm_virtual_network" "playgroundnetwork" {
     name                = "playground-vnet"
     address_space       = ["10.10.0.0/16"]
     location            = "eastus"
-    resource_group_name = azurerm_resource_group.myplaygroundgroup.name
+    resource_group_name = azurerm_resource_group.playgroundgroup.name
 
     tags = {
         environment = "playground",
@@ -33,16 +33,16 @@ resource "azurerm_virtual_network" "myplaygroundnetwork" {
 # Create subnet
 resource "azurerm_subnet" "myplaygroundsubnet" {
     name                 = "playground-subnet"
-    resource_group_name  = azurerm_resource_group.myplaygroundgroup.name
-    virtual_network_name = azurerm_virtual_network.myplaygroundgroup.name
+    resource_group_name  = azurerm_resource_group.playgroundgroup.name
+    virtual_network_name = azurerm_virtual_network.playgroundnetwork.name
     address_prefixes       = ["10.10.1.0/24"]
 }
 
 # Create subnet for AzureBastionHost
 resource "azurerm_subnet" "myplaygroundazurebastionhostsubnet" {
     name                 = "AzureBastionHost"
-    resource_group_name  = azurerm_resource_group.myplaygroundgroup.name
-    virtual_network_name = azurerm_virtual_network.myterraformnetwork.name
+    resource_group_name  = azurerm_resource_group.playgroundgroup.name
+    virtual_network_name = azurerm_virtual_network.playgroundnetwork.name
     address_prefixes       = ["10.10.2.0/24"]
 }
 
@@ -50,7 +50,7 @@ resource "azurerm_subnet" "myplaygroundazurebastionhostsubnet" {
 resource "azurerm_public_ip" "mylinuxpublicip" {
     name                         = "myLinuxVM-PIP"
     location                     = "eastus"
-    resource_group_name          = azurerm_resource_group.myplaygroundgroup.name
+    resource_group_name          = azurerm_resource_group.playgroundgroup.name
     allocation_method            = "Dynamic"
 
     tags = {
@@ -60,10 +60,10 @@ resource "azurerm_public_ip" "mylinuxpublicip" {
 }
 
 # Create Network Security Group and rule
-resource "azurerm_network_security_group" "myplaygroundnsg" {
+resource "azurerm_network_security_group" "playgroundnsg" {
     name                = "playground-NSG"
     location            = "eastus"
-    resource_group_name = azurerm_resource_group.myplaygroundgroup.name
+    resource_group_name = azurerm_resource_group.playgroundgroup.name
     
     security_rule {
         name                       = "SSH"
@@ -87,13 +87,13 @@ resource "azurerm_network_security_group" "myplaygroundnsg" {
 resource "azurerm_network_interface" "mylinuxvmnic" {
     name                      = "linuxVM-NIC"
     location                  = "eastus"
-    resource_group_name       = azurerm_resource_group.myplaygroundgroup.name
+    resource_group_name       = azurerm_resource_group.playgroundgroup.name
 
     ip_configuration {
         name                          = "myNicConfiguration"
-        subnet_id                     = azurerm_subnet.myterraformsubnet.id
+        subnet_id                     = azurerm_subnet.myplaygroundsubnet.id
         private_ip_address_allocation = "Dynamic"
-        public_ip_address_id          = azurerm_public_ip.myterraformpublicip.id
+        public_ip_address_id          = azurerm_public_ip.mylinuxpublicip.id
     }
 
     tags = {
@@ -104,15 +104,15 @@ resource "azurerm_network_interface" "mylinuxvmnic" {
 
 # Connect the security group to the network interface
 resource "azurerm_network_interface_security_group_association" "example" {
-    network_interface_id      = azurerm_network_interface.myterraformnic.id
-    network_security_group_id = azurerm_network_security_group.myterraformnsg.id
+    network_interface_id      = azurerm_network_interface.mylinuxvmnic.id
+    network_security_group_id = azurerm_network_security_group.playgroundnsg.id
 }
 
 # Generate random text for a unique storage account name
 resource "random_id" "randomId" {
     keepers = {
         # Generate a new ID only when a new resource group is defined
-        resource_group = azurerm_resource_group.myplaygroundgroup.name
+        resource_group = azurerm_resource_group.playgroundgroup.name
     }
     
     byte_length = 8
@@ -121,7 +121,7 @@ resource "random_id" "randomId" {
 # Create storage account for boot diagnostics
 resource "azurerm_storage_account" "mystorageaccount" {
     name                        = "diag${random_id.randomId.hex}"
-    resource_group_name         = azurerm_resource_group.myplaygroundgroup.name
+    resource_group_name         = azurerm_resource_group.playgroundgroup.name
     location                    = "eastus"
     account_tier                = "Standard"
     account_replication_type    = "LRS"
@@ -143,12 +143,12 @@ output "tls_private_key" { value = "${tls_private_key.example_ssh.private_key_pe
 resource "azurerm_linux_virtual_machine" "myterraformvm" {
     name                  = "myVM"
     location              = "eastus"
-    resource_group_name   = azurerm_resource_group.myplaygroundgroup.name
-    network_interface_ids = [azurerm_network_interface.myterraformnic.id]
+    resource_group_name   = azurerm_resource_group.playgroundgroup.name
+    network_interface_ids = [azurerm_network_interface.mylinuxvmnic.id]
     size                  = "Standard_DS1_v2"
 
     os_disk {
-        name              = "myOsDisk"
+        name              = "myLinuxOsDisk"
         caching           = "ReadWrite"
         storage_account_type = "Premium_LRS"
     }
