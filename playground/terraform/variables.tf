@@ -2,12 +2,12 @@
 
 variable "resource_group" {
     type = string
-    default = "playground"
+    default = ["playground"]
 }
 
 variable "location" {
     type = string
-    default = "eastus"
+    default = ["eastus"]
 }
 
 # variable "private_key_path" {
