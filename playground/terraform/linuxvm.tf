@@ -1,59 +1,67 @@
 # Configure the Microsoft Azure Provider
-provider "azurerm" {
-    # The "feature" block is required for AzureRM provider 2.x. 
-    # If you're using version 1.x, the "features" block is not allowed.
-    version = "~>2.0"
-    features {}
-}
+#provider "azurerm" {
+#    # The "feature" block is required for AzureRM provider 2.x. 
+#    # If you're using version 1.x, the "features" block is not allowed.
+#    version = "~>2.0"
+#    features {}
+#}
 
 # Create a resource group if it doesn't exist
-resource "azurerm_resource_group" "myterraformgroup" {
-    name     = "plyground"
+resource "azurerm_resource_group" "myplaygroundgroup" {
+    name     = "playground"
     location = "eastus"
 
     tags = {
-        environment = "plyground",
+        environment = "playground",
         billing-code = 010
     }
 }
 
 # Create virtual network
-resource "azurerm_virtual_network" "myterraformnetwork" {
+resource "azurerm_virtual_network" "myplaygroundnetwork" {
     name                = "playground-vnet"
     address_space       = ["10.10.0.0/16"]
     location            = "eastus"
     resource_group_name = azurerm_resource_group.myterraformgroup.name
 
     tags = {
-        environment = "plyground",
+        environment = "playground",
         billing-code = 010
     }
 }
 
 # Create subnet
-resource "azurerm_subnet" "myterraformsubnet" {
+resource "azurerm_subnet" "myplaygroundsubnet" {
     name                 = "playground-subnet"
     resource_group_name  = azurerm_resource_group.myterraformgroup.name
     virtual_network_name = azurerm_virtual_network.myterraformnetwork.name
     address_prefixes       = ["10.10.1.0/24"]
 }
 
+# Create subnet for AzureBastionHost
+resource "azurerm_subnet" "myplaygroundazurebastionhostsubnet" {
+    name                 = "AzureBastionHost"
+    resource_group_name  = azurerm_resource_group.myterraformgroup.name
+    virtual_network_name = azurerm_virtual_network.myterraformnetwork.name
+    address_prefixes       = ["10.10.2.0/24"]
+}
+
 # Create public IPs
-resource "azurerm_public_ip" "myterraformpublicip" {
-    name                         = "myPublicIP"
+resource "azurerm_public_ip" "mylinuxpublicip" {
+    name                         = "myLinuxVM-PIP"
     location                     = "eastus"
     resource_group_name          = azurerm_resource_group.myterraformgroup.name
     allocation_method            = "Dynamic"
 
     tags = {
-        environment = "plyground",
+        environment = "playground",
         billing-code = 010
     }
 }
 
 # Create Network Security Group and rule
-resource "azurerm_network_security_group" "myterraformnsg" {
-    name                = "myNetworkSecurityGroup"
+resource "azurerm_network_security_group" "myplaygroundnsg" {
+    name                = "playground-NSG"
     location            = "eastus"
     resource_group_name = azurerm_resource_group.myterraformgroup.name
     
@@ -70,14 +78,14 @@ resource "azurerm_network_security_group" "myterraformnsg" {
     }
 
     tags = {
-        environment = "plyground",
+        environment = "playground",
         billing-code = 010
     }
 }
 
 # Create network interface
-resource "azurerm_network_interface" "myterraformnic" {
-    name                      = "myNIC"
+resource "azurerm_network_interface" "mylinuxvmnic" {
+    name                      = "linuxVM-NIC"
     location                  = "eastus"
     resource_group_name       = azurerm_resource_group.myterraformgroup.name
 
@@ -89,7 +97,7 @@ resource "azurerm_network_interface" "myterraformnic" {
     }
 
     tags = {
-        environment = "plyground",
+        environment = "playground",
         billing-code = 010
     }
 }
