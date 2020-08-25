@@ -23,14 +23,34 @@ variable "billing-code" {
 variable "regions" {
     type = map
     default = {
+        "Global"        = "global"
+        "Central US"    = "centralus"
         "East US"       = "eastus"
+        "East US 2"     = "eastus2"
         "West Europe"   = "westeurope"
-        "Central US"     = "centralus"
-        "helsinki1"     = "fi-hel1"
-        "helsinki2"     = "fi-hel2"
-        "chicago"       = "us-chi1"
-        "sanjose"       = "us-sjo1"
-        "singapore"     = "sg-sin1"
+        "North Europe"  = "northeurope"
+    }
+}
+
+variable "namingprefixes" {
+    type = map
+    default = {
+        "global"        = "glob"
+        "centralus"     = "cus1"
+        "eastus"        = "eus1"
+        "eastus2"       = "eus2"
+        "westeurope"    = "weu1"
+        "northeurope"   = "neu1"
+    }
+}
+
+variable "tfbackend" {
+    type = map
+    default = {
+        "resource_group_name"   = "tstate"
+        "storage_account_name"  = "tstate24111"
+        "container_name"        = "tstate"
+        "key"                   = "terraform.tfstate"
     }
 }
 
