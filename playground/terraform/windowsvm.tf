@@ -1,13 +1,13 @@
 # Create public IPs
 resource "azurerm_public_ip" "windowspublicip" {
-    name                         = "${var.vmnamewindows}VM-PIP"
-    location                     = var.location
-    resource_group_name          = azurerm_resource_group.playgroundgroup.name
-    allocation_method            = "Dynamic"
+    name                            = "${var.vmnamewindows}VM-PIP"
+    location                        = var.location
+    resource_group_name             = azurerm_resource_group.playgroundgroup.name
+    allocation_method               = "Dynamic"
 
     tags = {
-        environment = var.environementtag,
-        billing-code = var.billing-code
+        environment                 = var.environementtag,
+        billing-code                = var.billing-code
     }
 }
 
@@ -25,48 +25,48 @@ resource "azurerm_network_interface" "windowsvmnic" {
     }
 
     tags = {
-        environment = var.environementtag,
-        billing-code = var.billing-code
+        environment                   = var.environementtag,
+        billing-code                  = var.billing-code
     }
 }
 
 # Connect the security group to the network interface
 resource "azurerm_network_interface_security_group_association" "windowswm" {
-    network_interface_id      = azurerm_network_interface.windowsvmnic.id
-    network_security_group_id = azurerm_network_security_group.playgroundnsg.id
+    network_interface_id             = azurerm_network_interface.windowsvmnic.id
+    network_security_group_id        = azurerm_network_security_group.playgroundnsg.id
 }
 
 # Create virtual machine
 resource "azurerm_windows_virtual_machine" "playgroundwindowsvm" {    
-    name                  = var.vmnamewindows
-    location              = var.location
-    resource_group_name   = azurerm_resource_group.playgroundgroup.name
-    network_interface_ids = [azurerm_network_interface.windowsvmnic.id]
-    size                  = "Standard_DS1_v2"
+    name                            = var.vmnamewindows
+    location                        = var.location
+    resource_group_name             = azurerm_resource_group.playgroundgroup.name
+    network_interface_ids           = [azurerm_network_interface.windowsvmnic.id]
+    size                            = "Standard_DS1_v2"
 
     os_disk {
-        name                 = "${var.vmnamewindows}OsDisk"
-        caching              = "ReadWrite"
-        storage_account_type = "Premium_LRS"
+        name                        = "${var.vmnamewindows}OsDisk"
+        caching                     = "ReadWrite"
+        storage_account_type        = "Premium_LRS"
     }
 
     source_image_reference {
-    publisher = "MicrosoftWindowsServer"
-    offer     = "WindowsServer"
-    sku       = "2016-Datacenter"
-    version   = "latest"
+        publisher                   = "MicrosoftWindowsServer"
+        offer                       = "WindowsServer"
+        sku                         = "2016-Datacenter"
+        version                     = "latest"
     }
 
-    computer_name  = "${var.vmnamewindows}SandBox"
-    admin_username = var.users[1]
-    admin_password = var.admin_password
+    computer_name                   = "${var.vmnamewindows}SandBox"
+    admin_username                  = var.users[1]
+    admin_password                  = var.admin_password
 
     boot_diagnostics {
-        storage_account_uri = azurerm_storage_account.playgroundstorageaccount.primary_blob_endpoint
+        storage_account_uri         = azurerm_storage_account.playgroundstorageaccount.primary_blob_endpoint
     }
 
     tags = {
-        environment = var.environementtag,
-        billing-code = var.billing-code
+        environment                 = var.environementtag,
+        billing-code                = var.billing-code
     }
 }
