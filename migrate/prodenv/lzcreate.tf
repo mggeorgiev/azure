@@ -20,7 +20,7 @@ resource "azurerm_resource_group" "azmgrgroup" {
 
 # Create virtual network
 resource "azurerm_virtual_network" "azmgrnetwork" {
-    name                = "azmgr-vnet"
+    name                = "${var.management}-vnet"
     address_space       = ["10.01.0.0/16"]
     location            = "eastus"
     resource_group_name = azurerm_resource_group.azmgrgroup.name
@@ -32,8 +32,8 @@ resource "azurerm_virtual_network" "azmgrnetwork" {
 }
 
 # Create subnet
-resource "azurerm_subnet" "playgroundsubnet" {
-    name                 = "playground-subnet"
+resource "azurerm_subnet" "azmgrsubnet" {
+    name                 = "${var.management}-subnet"
     resource_group_name  = azurerm_resource_group.azmgrgroup.name
     virtual_network_name = azurerm_virtual_network.playgroundnetwork.name
     address_prefixes       = ["10.01.1.0/24"]
