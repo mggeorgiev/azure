@@ -1,5 +1,3 @@
-# variables.tf
-
 variable "resource_group" {
     type = string
     default = "playground"
