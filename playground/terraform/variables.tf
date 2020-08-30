@@ -1,5 +1,10 @@
 # variables.tf
 
+variable "subscriptionID" {
+    type = string
+    default = ""
+}
+
 variable "resource_group" {
     type = string
     default = "playground"
