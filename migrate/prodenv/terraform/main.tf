@@ -25,14 +25,14 @@ resource "azurerm_resource_group" "rghubspoke" {
 
 # Create hub virtual network
 resource "azurerm_virtual_network" "vnetHub" {
-    name                = var.vnetHub["name"]
-    address_space       = ["${var.vnetHub["address_space"]}"]
-    location            = azurerm_resource_group.rghubspoke.location
-    resource_group_name = azurerm_resource_group.rghubspoke.name
+    name                  = var.vnetHub["name"]
+    address_space         = ["${var.vnetHub["address_space"]}"]
+    location              = azurerm_resource_group.rghubspoke.location
+    resource_group_name   = azurerm_resource_group.rghubspoke.name
 
     tags = {
-        environment     = var.vnetHub["environment"],
-        billing-code    = var.vnetHub["billing-code"]
+        environment       = var.vnetHub["environment"],
+        billing-code      = var.vnetHub["billing-code"]
     }
 }
 
