@@ -1,2 +1,2 @@
 # azure
-Azure Scripts
+Azure cli scripts and Terraform files for various resources.
