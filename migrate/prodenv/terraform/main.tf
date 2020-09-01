@@ -109,3 +109,17 @@ resource "azurerm_subnet" "spoke2Subnet" {
     virtual_network_name = azurerm_virtual_network.vnetSpoke2.name
     address_prefixes     = ["${var.vnetSpoke2["defaultSubnet"]}"]
 }
+
+resource "azurerm_virtual_network_peering" "hub2spoke1" {
+  name                      = "hub2spoke1"
+  resource_group_name       = azurerm_resource_group.rghubspoke.name
+  virtual_network_name      = azurerm_virtual_network.vnetHub.name
+  remote_virtual_network_id = azurerm_virtual_network.vnetSpoke1.id
+}
+
+resource "azurerm_virtual_network_peering" "hub2spoke2" {
+  name                      = "hub2spoke2"
+  resource_group_name       = azurerm_resource_group.rghubspoke.name
+  virtual_network_name      = azurerm_virtual_network.vnetHub.name
+  remote_virtual_network_id = azurerm_virtual_network.vnetSpoke2.id
+}
