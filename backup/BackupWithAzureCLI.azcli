@@ -1,6 +1,6 @@
 #!/bash/bin
 
-#Script was created by
+#Script was created by ...
 recoveryServicesVaultName="plazRSV1"
 resourceGroupName="plazRG1"
 virtualMachineName="plazVM1"
@@ -9,16 +9,18 @@ adminName="plazadmin"
 retainUntil=`date +”%d-%b-%Y” -d "+1 year"`
 
 # Create the Resource Group
+echo "Create the Resource Group ${resourceGroupName}"
 az group create --name $resourceGroupName --location $location
 
 # Create a Virtual Machine
+echo "Create a Virtual Machine ${virtualMachineName}"
 az vm create --resource-group $resourceGroupName \
              --name $virtualMachineName \
              --image UbuntuLTS \
              --admin-username $adminName \
              --generate-ssh-keys
  
- # open up port 80
+# open up port 80
 az vm open-port --port 80 \
             --resource-group $resourceGroupName \
             --name $virtualMachineName
