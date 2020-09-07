@@ -6,7 +6,7 @@ resourceGroupName="plazRG1"
 virtualMachineName="plazVM1"
 location="eastus"
 adminName="plazadmin"
-retainUntil=`date +”%d-%b-%Y” -d "+1 year"`
+retainUntil=`date +”%d-%m-%Y” -d "+1 year"`
 
 # Create the Resource Group
 echo "Create the Resource Group ${resourceGroupName}"
