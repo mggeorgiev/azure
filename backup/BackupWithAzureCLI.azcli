@@ -1,39 +1,57 @@
-#Script was created by 
-$recoveryServicesVaultName = "plazRSV"
-$resourceGroupName = "plazRG"
-$virtualMachineName = "plazVM"
-$location = "eastus"
-$adminName = "plazadmin"
+#!/bash/bin
+
+#Script was created by
+recoveryServicesVaultName="plazRSV1"
+resourceGroupName="plazRG1"
+virtualMachineName="plazVM1"
+location="eastus"
+adminName="plazadmin"
+retainUntil=`date +”%d-%b-%Y” -d "+1 year"`
 
 # Create the Resource Group
 az group create --name $resourceGroupName --location $location
 
 # Create a Virtual Machine
-az vm create --resource-group $resourceGroupName --name $virtualMachineName --image UbuntuLTS --admin-username $adminName --generate-ssh-keys
-
-# open up port 80
-az vm open-port --port 80 --resource-group $resourceGroupName --name $virtualMachineName
+az vm create --resource-group $resourceGroupName \
+             --name $virtualMachineName \
+             --image UbuntuLTS \
+             --admin-username $adminName \
+             --generate-ssh-keys
+ 
+ # open up port 80
+az vm open-port --port 80 \
+            --resource-group $resourceGroupName \
+            --name $virtualMachineName
 
 #get public IP
-az vm show --resource-group $resourceGroupName --name $virtualMachineName -d --query [publicIps] --o tsv
+#az vm show --resource-group $resourceGroupName --name $virtualMachineName -d --query [publicIps] --output tsv
+publicIpAddress=$(az vm show --resource-group ${resourceGroupName} --name ${virtualMachineName} -d --query [publicIps] --output tsv)
+vmId=$(az vm show --resource-group ${resourceGroupName} --name ${virtualMachineName} -d --query [id] --output tsv)
 
-#login to VM
-ssh plazadmin@publicIpAddress
-
-# update packages
-sudo apt-get -y update
-
-# install NGINX
-sudo apt-get -y install nginx
+ssh plazadmin@$publicIpAddress -t sudo apt-get -y update
+ssh plazadmin@$publicIpAddress -t sudo apt-get -y install nginx
 
 #create recovery vault
 az backup vault create --resource-group $resourceGroupName --name $recoveryServicesVaultName --location $location
 
-# enable backup
-az backup protection enable-for-vm --resource-group $resourceGroupName --vault-name $recoveryServicesVaultName --vm $virtualMachineName --policy-name DefaultPolicy
+#Check if the vm is already protected
+if [ -z $(az backup protection check-vm --vm-id $vmId) ]
+then
+      echo "\$my_vmId is not protected"
+        # enable backup
+        az backup protection enable-for-vm --resource-group $resourceGroupName --vault-name $recoveryServicesVaultName --vm $virtualMachineN$
+else
+      echo "\$my_var is protected"
+fi
 
 # initial backup
-az backup protection backup-now --resource-group $resourceGroupName --vault-name $recoveryServicesVaultName --container-name $virtualMachineName --item-name $virtualMachineName --retain-until 18-10-2018
+az backup protection backup-now \
+            --resource-group $resourceGroupName \
+            --vault-name $recoveryServicesVaultName \
+            --container-name $virtualMachineName \
+            --item-name $virtualMachineName \
+            --backup-management-type AzureIaasVM \
+            --retain-until $retainUntil
 
 # watch backup
 az backup job list --resource-group $resourceGroupName --vault-name $recoveryServicesVaultName --output table
