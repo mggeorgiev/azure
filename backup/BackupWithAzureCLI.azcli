@@ -1,9 +1,9 @@
 #!/bash/bin
 
 #Script was created by ...
-recoveryServicesVaultName="plazRSV1"
-resourceGroupName="plazRG1"
-virtualMachineName="plazVM1"
+recoveryServicesVaultName="plazRSV"
+resourceGroupName="plazRG"
+virtualMachineName="plazVM"
 location="eastus"
 adminName="plazadmin"
 retainUntil=$(date -d "+14 days" +'%d-%m-%Y')
@@ -39,11 +39,11 @@ az backup vault create --resource-group $resourceGroupName --name $recoveryServi
 #Check if the vm is already protected
 if [ -z $(az backup protection check-vm --vm-id $vmId) ]
 then
-      echo "\$my_vmId is not protected"
+      echo "\${virtualMachineName} is not protected"
         # enable backup
         az backup protection enable-for-vm --resource-group $resourceGroupName --vault-name $recoveryServicesVaultName --vm $virtualMachineN$
 else
-      echo "\$my_var is protected"
+      echo "\${virtualMachineName} is protected"
 fi
 
 # initial backup
