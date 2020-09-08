@@ -1,3 +1,4 @@
+# Hub
 # Create Network Security Group and rule
 resource "azurerm_network_security_group" "hubnsg" {
     name                            = "hubNSG"
@@ -30,7 +31,7 @@ resource "azurerm_network_interface" "hubNic" {
 
     ip_configuration {
         name                          = "hubNicConfiguration"
-        subnet_id                     =  azurerm_subnet.spoke1Subnet.id
+        subnet_id                     =  azurerm_subnet.hubSubnet.id
         private_ip_address_allocation = "Dynamic"
     }
 
