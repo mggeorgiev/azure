@@ -7,6 +7,8 @@ resource "azurerm_recovery_services_vault" "rsvault" {
   soft_delete_enabled = true
 
   tags = {
-        reviewbefore = formatdate("YYYY-MMM-DD",timeadd(timestamp(), "9m"))
+        reviewbefore = formatdate("YYYY-MMM-DD",timeadd(timestamp(), "9m")),
+        environment = var.environementtag,
+        billing-code = var.billing-code
     }
 }
