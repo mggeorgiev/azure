@@ -15,6 +15,11 @@ variable "location" {
     default = "eastus"
 }
 
+variable "rsvault" {
+    type    = string
+    default = "rvt-playgound-001"
+}
+
 variable "environementtag" {
     type = string
     default = "playground"
