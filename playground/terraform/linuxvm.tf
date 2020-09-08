@@ -2,7 +2,6 @@
 resource "azurerm_public_ip" "linuxpublicip" {
     name                                = "${var.vmnamelinux}VM-PIP"
     location                            = var.location
-    zones                                = var.zone
     resource_group_name                 = azurerm_resource_group.playgroundgroup.name
     allocation_method                   = "Dynamic"
 
