@@ -4,7 +4,6 @@ resource "azurerm_public_ip" "linuxpublicip" {
     location                            = var.location
     resource_group_name                 = azurerm_resource_group.playgroundgroup.name
     allocation_method                   = "Dynamic"
-    zones                               = ["1","2","3"]
 
     tags = {
         environment = var.environementtag,
