@@ -50,6 +50,7 @@ resource "azurerm_linux_virtual_machine" "playgroundlinuxvm" {
     resource_group_name                 = azurerm_resource_group.playgroundgroup.name
     network_interface_ids               = [azurerm_network_interface.linuxvmnic.id]
     size                                = "Standard_DS1_v2"
+    zone                                = var.zone
 
     os_disk {
         name                            = "${var.vmnamelinux}OsDisk"
