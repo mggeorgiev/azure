@@ -67,7 +67,8 @@ resource "azurerm_linux_virtual_machine" "playgroundlinuxvm" {
 
     computer_name                       = "${var.vmnamelinux}SandBox"
     admin_username                      = var.users[1]
-    disable_password_authentication     = true
+    admin_password                      = var.admin_password
+    disable_password_authentication     = false
         
     admin_ssh_key {
         username                        = var.users[1]
