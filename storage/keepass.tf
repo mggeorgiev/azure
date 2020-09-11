@@ -42,7 +42,7 @@ resource "azurerm_resource_group" "keepassgroup" {
 
 # Create storage account to sync the state
 resource "azurerm_storage_account" "keepasstorageaccount" {
-    name                        = "keepass${var.resource_group}" #"diag${random_id.randomId.hex}"
+    name                        = "keepass${random_id.randomId.hex}"
     resource_group_name         = azurerm_resource_group.keepassgroup.name
     location                    = var.location
     account_tier                = "Standard"
