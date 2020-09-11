@@ -4,6 +4,11 @@ variable location {
     default = "eastus"
 }
 
+variable resource_group_name {
+    type    = "string"
+    default = "rg-keepas-01"
+}
+
 variable environementtag {
     type    = "string"
     default = "production"
@@ -25,7 +30,7 @@ resource "random_id" "randomId" {
 }
 
 resource "azurerm_resource_group" "keepassgroup" {
-    name     = rg-keepas-01
+    name     = var.resource_group_name
     location = var.location
     #subscription_id = var.subscriptionID
 
