@@ -23,7 +23,7 @@ variable billing-code {
 resource "random_id" "randomId" {
     keepers = {
         # Generate a new ID only when a new resource group is defined
-        resource_group = azurerm_resource_group.playgroundgroup.name
+        resource_group = azurerm_resource_group.keepassgroup.name
     }
     
     byte_length = 8
@@ -42,7 +42,7 @@ resource "azurerm_resource_group" "keepassgroup" {
 
 # Create storage account to sync the state
 resource "azurerm_storage_account" "keepasstorageaccount" {
-    name                        = "diag${var.resource_group}" #"diag${random_id.randomId.hex}"
+    name                        = "keepass${var.resource_group}" #"diag${random_id.randomId.hex}"
     resource_group_name         = azurerm_resource_group.keepassgroup.name
     location                    = var.location
     account_tier                = "Standard"
