@@ -48,3 +48,9 @@ resource "azurerm_storage_account" "keepasstorageaccount" {
         billing-code = var.billing-code
     }
 }
+
+resource "azurerm_storage_container" "sync" {
+  name                  = "sync"
+  storage_account_name  = azurerm_storage_account.keepasstorageaccount.name
+  container_access_type = "private"
+}
