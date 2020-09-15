@@ -1,21 +1,21 @@
 
 variable location {
-    type    = "string"
+    type    = string
     default = "eastus"
 }
 
 variable resource_group {
-    type    = "string"
+    type    = string
     default = "rg-keepas-01"
 }
 
 variable environementtag {
-    type    = "string"
+    type    = string
     default = "production"
 }
 
 variable billing-code {
-    type    = "string"
+    type    = string
     default = "001"
 }
 
