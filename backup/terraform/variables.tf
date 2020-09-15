@@ -7,7 +7,7 @@ variable "subscriptionID" {
 
 variable "resource_group" {
     type = string
-    default = "playground"
+    default = "rg-rsv"
 }
 
 variable "location" {
@@ -22,7 +22,7 @@ variable "rsvault" {
 
 variable "environementtag" {
     type = string
-    default = "playground"
+    default = "infra"
 }
 
 variable "billing-code" {
