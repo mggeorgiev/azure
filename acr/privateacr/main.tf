@@ -9,5 +9,5 @@ resource "azurerm_container_registry" "acrprivate" {
   location                 = azurerm_resource_group.private-acr.location
   sku                      = "Basic"
   admin_enabled            = true
-  georeplication_locations = ["West Europe"]
+  #georeplication_locations = ["West Europe"]
 }
