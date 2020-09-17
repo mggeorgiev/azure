@@ -1,8 +1,3 @@
-provider "azurerm" {
-  version = "~>2.0"
-  features {}
-}
-
 # Create Hub-Spoke Resource Group
 resource "azurerm_resource_group" "rghubspoke" {
     name                = var.rgHubPpoke["resource_group_name"]
