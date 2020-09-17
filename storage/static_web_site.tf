@@ -10,6 +10,10 @@ resource "azurerm_storage_account" "martingeorgievdata001" {
   account_tier              = "Standard"
   account_replication_type  = "LRS"
   account_kind              = "StorageV2"
+    
+  static_website {
+    index_document = "index.html"
+  }
 
   tags = {
     environment             = "staging"
