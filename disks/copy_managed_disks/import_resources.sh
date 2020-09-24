@@ -1,3 +1,5 @@
+#!/bin/bash
+
 RESOURCE_GROUP_NAME="rsg-migtest-weu1-d-02"
 subscription="fdc9bd0d-e27f-4689-b2de-e8a1df3babf9"
 source="lubtzweb11_1-lubtzweb11-test"
