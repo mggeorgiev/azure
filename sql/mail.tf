@@ -1,7 +1,7 @@
 resource "azurerm_storage_account" "stomssql" {
   name                                    = "stomssql"
-  resource_group_name                     = azurerm_resource_group.playground.name
-  location                                = azurerm_resource_group.playground.location
+  resource_group_name                     = var.resource_group
+  location                                = var.location
   account_tier                            = "Standard"
   account_replication_type                = "LRS"
 }
