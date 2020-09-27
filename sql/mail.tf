@@ -8,8 +8,8 @@ resource "azurerm_storage_account" "stomssql" {
 
 resource "azurerm_sql_server" "mssqlserver" {
   name                                    = "mssqlserver"
-  resource_group_name                     = azurerm_resource_group.playground.name
-  location                                = azurerm_resource_group.playground.location
+  resource_group_name                     = var.resource_group
+  location                                = var.location
   version                                 = "12.0"
   administrator_login                     = "sqluser"
   administrator_login_password            = "KBUBXF68vIAJVgBmpR2P"
