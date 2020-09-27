@@ -1,9 +1,9 @@
 # variables.tf
 
-variable "subscriptionID" {
-    type = string
-    default = ""
-}
+#variable "subscriptionID" {
+#    type = string
+#    default = ""
+#}
 
 variable "resource_group" {
     type = string
