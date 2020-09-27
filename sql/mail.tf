@@ -7,7 +7,7 @@ resource "azurerm_storage_account" "stomssql" {
 }
 
 resource "azurerm_sql_server" "mssqlserver" {
-  name                                    = "mssqlserver"
+  name                                    = "mssqlserverdemo"
   resource_group_name                     = var.resource_group
   location                                = var.location
   version                                 = "12.0"
