@@ -16,7 +16,7 @@ variable "location" {
 
 variable "rsvault" {
     type    = string
-    default = "rvt-playgound-001"
+    default = "rvt-playgound-002"
 }
 
 variable "environementtag" {
