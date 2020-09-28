@@ -20,10 +20,10 @@ variable billing-code {
 }
 
 #Generate random text for a unique storage account name
-resource "random_id" "randomId" {
+resource "random_id" "storandomId" {
     keepers = {
         # Generate a new ID only when a new resource group is defined
-        resource_group = azurerm_resource_group.keepassgroup.name
+        resource_group = azurerm_resource_group.tempstorage.name
     }
     
     byte_length = 8
