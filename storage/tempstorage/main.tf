@@ -63,5 +63,5 @@ resource "azurerm_storage_account" "tempstorageaccount" {
 resource "azurerm_storage_container" "sync" {
   name                  = "sync"
   storage_account_name  = azurerm_storage_account.tempstorageaccount.name
-  container_access_type = "public"
+  container_access_type = "blob"
 }
