@@ -63,5 +63,5 @@ resource "azurerm_storage_account" "tempstorageaccount" {
 resource "azurerm_storage_container" "tempcont" {
   name                  = "tempcont"
   storage_account_name  = azurerm_storage_account.tempstorageaccount.name
-  container_access_type = "private"
+  container_access_type = "container"
 }
