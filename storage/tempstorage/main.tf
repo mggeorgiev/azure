@@ -53,6 +53,7 @@ resource "azurerm_storage_account" "tempstorageaccount" {
     location                    = var.location
     account_tier                = "Standard"
     account_replication_type    = "LRS"
+    allow_blob_public_access    = true
 
     tags = {
         environment = var.environementtag,
