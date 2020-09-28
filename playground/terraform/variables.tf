@@ -2,7 +2,6 @@
 
 variable "subscriptionID" {
     type = string
-    default = ""
 }
 
 variable "resource_group" {
