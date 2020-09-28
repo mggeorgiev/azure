@@ -48,7 +48,7 @@ resource "azurerm_resource_group" "tempstorage" {
 
 # Create storage account to sync the state
 resource "azurerm_storage_account" "tempstorageaccount" {
-    name                        = "${var.storage_account_name}${random_id.randomId.hex}"
+    name                        = "${var.storage_account_name}${random_id.storandomId.hex}"
     resource_group_name         = azurerm_resource_group.tempstorage.name
     location                    = var.location
     account_tier                = "Standard"
