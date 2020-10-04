@@ -1,3 +1,5 @@
+#!/bin/bash
+
 rg=scalesetrg
 location=eastus
 vmssname=webServerScaleSet
