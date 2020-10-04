@@ -1,5 +1,6 @@
 rg=scalesetrg
-location=westus
+location=eastus
+vmssname=webServerScaleSet
 
 az group create \
   --location $location \
@@ -7,7 +8,7 @@ az group create \
 
 az vmss create \
   --resource-group $rg \
-  --name webServerScaleSet \
+  --name $vmssname \
   --image UbuntuLTS \
   --upgrade-policy-mode automatic \
   --custom-data cloud-init.yaml \
@@ -15,3 +16,21 @@ az vmss create \
   --generate-ssh-keys
 
 #Configure the virtual machine scale set
+az network lb probe create \
+  --lb-name ${vmssname}LB \
+  --resource-group $rg \
+  --name webServerHealth \
+  --port 80 \
+  --protocol Http \
+  --path /
+
+az network lb rule create \
+  --resource-group $rg \
+  --name webServerLoadBalancerRuleWeb \
+  --lb-name ${vmssname}LB \
+  --probe-name webServerHealth \
+  --backend-pool-name webServerScaleSetLBBEPool \
+  --backend-port 80 \
+  --frontend-ip-name loadBalancerFrontEnd \
+  --frontend-port 80 \
+  --protocol tcp
