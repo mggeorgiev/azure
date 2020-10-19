@@ -1,0 +1,91 @@
+az vm list \
+    --resource-group $rg \
+    --show-details \
+    --query "[*].{Name:name, Provisioned:provisioningState, Power:powerState}" \
+    --output table
+
+az vm list \
+    --resource-group $rg \
+    --show-details \
+    --query "[*].{Name:name, PrivateIP:privateIps, PublicIP:publicIps}" \
+    --output table
+
+az vm list \
+    --resource-group $rg \
+    --show-details \
+    --query "[*].{Name:name, PrivateIP:privateIps, PublicIP:publicIps}" \
+    --output table
+
+APPSERVERIP="$(az vm list-ip-addresses \
+                 --resource-group $rg \
+                 --name AppServer \
+                 --query "[].virtualMachine.network.publicIpAddresses[*].ipAddress" \
+                 --output tsv)"
+
+DATASERVERIP="$(az vm list-ip-addresses \
+                 --resource-group $rg \
+                 --name DataServer \
+                 --query "[].virtualMachine.network.publicIpAddresses[*].ipAddress" \
+                 --output tsv)"
+
+az network nsg rule create \
+    --resource-group $rg \
+    --nsg-name ERP-SERVERS-NSG \
+    --name AllowSSHRule \
+    --direction Inbound \
+    --priority 100 \
+    --source-address-prefixes '*' \
+    --source-port-ranges '*' \
+    --destination-address-prefixes '*' \
+    --destination-port-ranges 22 \
+    --access Allow \
+    --protocol Tcp \
+    --description "Allow inbound SSH"
+
+az network nsg rule create \
+    --resource-group $rg \
+    --nsg-name ERP-SERVERS-NSG \
+    --name httpRule \
+    --direction Inbound \
+    --priority 150 \
+    --source-address-prefixes 10.0.1.4 \
+    --source-port-ranges '*' \
+    --destination-address-prefixes 10.0.0.4 \
+    --destination-port-ranges 80 \
+    --access Deny \
+    --protocol Tcp \
+    --description "Deny from DataServer to AppServer on port 80"
+
+az network asg create \
+    --resource-group $rg \
+    --name ERP-DB-SERVERS-ASG
+
+az network nic ip-config update \
+    --resource-group $rg \
+    --application-security-groups ERP-DB-SERVERS-ASG \
+    --name ipconfigDataServer \
+    --nic-name DataServerVMNic \
+    --vnet-name ERP-servers \
+    --subnet Databases
+
+az network nsg rule update \
+    --resource-group $rg \
+    --nsg-name ERP-SERVERS-NSG \
+    --name httpRule \
+    --direction Inbound \
+    --priority 150 \
+    --source-address-prefixes "" \
+    --source-port-ranges '*' \
+    --source-asgs ERP-DB-SERVERS-ASG \
+    --destination-address-prefixes 10.0.0.4 \
+    --destination-port-ranges 80 \
+    --access Deny \
+    --protocol Tcp \
+    --description "Deny from DataServer to AppServer on port 80 using application security group"
+
+az network vnet subnet update \
+    --vnet-name ERP-servers \
+    --resource-group $rg \
+    --name Databases \
+    --service-endpoints Microsoft.Storage
+
