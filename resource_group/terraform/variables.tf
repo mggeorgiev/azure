@@ -6,12 +6,12 @@ variable "subscriptionID" {
 
 variable "resource_group" {
     type = string
-    #default = "playground"
+    default = "playground"
 }
 
 variable "rg_location" {
     type = string
-    #default = "eastus"
+    default = "eastus"
 }
 
 variable "rg_zone" {
