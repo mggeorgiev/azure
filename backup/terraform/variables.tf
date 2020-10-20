@@ -6,27 +6,27 @@ variable "subscriptionID" {
 
 variable "resource_group" {
     type = string
-    default = "rg-rsv"
+    #default = "rg-rsv"
 }
 
 variable "location" {
     type = string
-    default = "eastus"
+    #default = "eastus"
 }
 
 variable "rsvault" {
     type    = string
-    default = "rvt-playgound-002"
+    #default = "rvt-playgound-002"
 }
 
 variable "environementtag" {
     type = string
-    default = "infra"
+    #default = "infra"
 }
 
 variable "billing-code" {
     type = string
-    default = "010"
+    #default = "010"
 }
 
 variable "regions" {
@@ -51,34 +51,4 @@ variable "namingprefixes" {
         "westeurope"    = "weu1"
         "northeurope"   = "neu1"
     }
-}
-
-variable "tfbackend" {
-    type = map
-    default = {
-        "resource_group_name"   = "tstate"
-        "storage_account_name"  = "tstate24111"
-        "container_name"        = "tstate"
-        "key"                   = "terraform.tfstate"
-    }
-}
-
-variable "vmnamelinux" {
-    type = string
-    default = "linux"
-}
-
-variable "vmnamewindows" {
-    type = string
-    default = "windows"
-}
-
-variable "admin_password" {
-    type    = string
-    default = "4wPcRFreYIVfCUYros9a"
-}
-
-variable "users" {
-    type = list
-    default = ["root", "azureuser"] 
 }
