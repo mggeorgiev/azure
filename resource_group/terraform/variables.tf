@@ -6,27 +6,22 @@ variable "subscriptionID" {
 
 variable "rg_name" {
     type = string
-    default = "playground"
 }
 
 variable "rg_location" {
     type = string
-    default = "eastus"
 }
 
 variable "rg_zone" {
     type = string
-    default = 1
 }
 
 variable "environementtag" {
     type = string
-    default = "playground"
 }
 
 variable "billing-code" {
     type = string
-    default = "010"
 }
 
 variable "regions" {
