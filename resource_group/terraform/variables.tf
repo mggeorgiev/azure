@@ -4,7 +4,7 @@ variable "subscriptionID" {
     type = string
 }
 
-variable "resource_group_name" {
+variable "rg_name" {
     type = string
     default = "playground"
 }
