@@ -1,9 +1,5 @@
 # variables.tf
 
-variable "subscriptionID" {
-    type = string
-}
-
 variable "rg_name" {
     type = string
 }
