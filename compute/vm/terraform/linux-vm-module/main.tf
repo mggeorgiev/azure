@@ -45,7 +45,7 @@ output "tls_private_key" { value = "${tls_private_key.example_ssh.private_key_pe
 
 # Create virtual machine
 resource "azurerm_linux_virtual_machine" "linuxvm" {
-    name                                = var.vmnamelinux
+    name                                = var.vmname
     location                            = var.location
     resource_group_name                 = var.resource_group
     network_interface_ids               = [azurerm_network_interface.linuxvmnic.id]
