@@ -1,5 +1,3 @@
-# variables.tf
-
 variable "subscriptionID" {
     type = string
 }
