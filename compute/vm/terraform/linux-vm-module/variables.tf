@@ -21,7 +21,7 @@ variable "zone" {
 
 variable "vnet_subnet_id" {
     type = string
-    desctiption = "Target subnet id"
+    description = "Target subnet id"
 }
 
 variable "environementtag" {

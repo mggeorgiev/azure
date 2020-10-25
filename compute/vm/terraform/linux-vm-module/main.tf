@@ -33,7 +33,7 @@ resource "azurerm_network_interface" "linuxvmnic" {
 # Connect the security group to the network interface
 resource "azurerm_network_interface_security_group_association" "example" {
     network_interface_id                = azurerm_network_interface.linuxvmnic.id
-    network_security_group_id           = azurerm_network_security_group.playgroundnsg.id
+    network_security_group_id           = azurerm_network_security_group.linuxvmnsg.id
 }
 
 # Create (and display) an SSH key
@@ -47,7 +47,7 @@ output "tls_private_key" { value = "${tls_private_key.example_ssh.private_key_pe
 resource "azurerm_linux_virtual_machine" "playgroundlinuxvm" {
     name                                = var.vmnamelinux
     location                            = var.location
-    resource_group_name                 = azurerm_resource_group.playgroundgroup.name
+    resource_group_name                 = var.resource_groupe
     network_interface_ids               = [azurerm_network_interface.linuxvmnic.id]
     size                                = "Standard_DS1_v2"
     #zone                                = var.zone
@@ -75,8 +75,36 @@ resource "azurerm_linux_virtual_machine" "playgroundlinuxvm" {
         public_key                      = tls_private_key.example_ssh.public_key_openssh
     }
 
-    boot_diagnostics {
-        storage_account_uri             = azurerm_storage_account.playgroundstorageaccount.primary_blob_endpoint
+    # boot_diagnostics {
+    #     storage_account_uri             = azurerm_storage_account.playgroundstorageaccount.primary_blob_endpoint
+    # }
+
+    tags = {
+        environment = var.environementtag,
+        billing-code = var.billing-code
+    }
+}
+
+
+
+####
+
+# Create Network Security Group and rule
+resource "azurerm_network_security_group" "linuxvmnsg" {
+    name                = "${var.resource_group}-NSG"
+    location            = var.location
+    resource_group_name = var.resource_group
+    
+    security_rule {
+        name                       = "SSH"
+        priority                   = 1001
+        direction                  = "Inbound"
+        access                     = "Allow"
+        protocol                   = "Tcp"
+        source_port_range          = "*"
+        destination_port_range     = "22"
+        source_address_prefix      = "*"
+        destination_address_prefix = "*"
     }
 
     tags = {
