@@ -41,6 +41,11 @@ variable "admin_password" {
     type    = string
     default = "4wPcRFreYIVfCUYros9a"
 }
+variable "ssh_public_key" {
+    type    = string
+    description="The location of the public key"
+    default = "~/.ssh/id_rsa.pub"
+}
 
 variable "users" {
     type = list
