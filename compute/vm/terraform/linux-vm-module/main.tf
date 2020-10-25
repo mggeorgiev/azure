@@ -72,7 +72,8 @@ resource "azurerm_linux_virtual_machine" "linuxvm" {
         
     admin_ssh_key {
         username                        = var.users[1]
-        public_key                      = file("~/.ssh/id_rsa.pub") #tls_private_key.example_ssh.public_key_openssh
+        public_key                      = file(var.ssh_public_key) #tls_private_key.example_ssh.public_key_openssh
+        #public_key                      = tls_private_key.example_ssh.public_key_openssh
     }
 
     # boot_diagnostics {
