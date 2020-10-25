@@ -1,6 +1,6 @@
 # Create public IPs
 resource "azurerm_public_ip" "linuxpublicip" {
-    name                                = "${var.vmnamelinux}VM-PIP"
+    name                                = "${var.vmname}VM-PIP"
     location                            = var.location
     resource_group_name                 = var.resource_group
     allocation_method                   = "Dynamic"
