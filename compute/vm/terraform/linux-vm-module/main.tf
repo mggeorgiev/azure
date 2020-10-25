@@ -44,16 +44,16 @@ resource "tls_private_key" "example_ssh" {
 output "tls_private_key" { value = "${tls_private_key.example_ssh.private_key_pem}" }
 
 # Create virtual machine
-resource "azurerm_linux_virtual_machine" "playgroundlinuxvm" {
+resource "azurerm_linux_virtual_machine" "linuxvm" {
     name                                = var.vmnamelinux
     location                            = var.location
-    resource_group_name                 = var.resource_groupe
+    resource_group_name                 = var.resource_group
     network_interface_ids               = [azurerm_network_interface.linuxvmnic.id]
     size                                = "Standard_DS1_v2"
     #zone                                = var.zone
 
     os_disk {
-        name                            = "${var.vmnamelinux}OsDisk"
+        name                            = "${var.vmname}OsDisk"
         caching                         = "ReadWrite"
         storage_account_type            = "Premium_LRS"
     }
