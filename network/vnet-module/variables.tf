@@ -15,3 +15,11 @@ variable "location" {
     type    = string
     default = "eastus"
 }
+
+variable "environementtag" {
+    type    = string
+}
+
+variable "billing-code" {
+    type    = string
+}
