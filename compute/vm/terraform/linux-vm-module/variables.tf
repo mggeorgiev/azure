@@ -8,33 +8,38 @@ variable "resource_group" {
 }
 
 variable "location" {
-    type = string
+    type    = string
     default = "eastus"
 }
 
 variable "zone" {
-    type = string
-    default = 1
+    type      = list(string)
+    default = ["1", "2", "3"]
 }
 
 variable "vnet_subnet_id" {
-    type = string
+    type        = string
     description = "Target subnet id"
 }
 
 variable "environementtag" {
-    type = string
+    type    = string
     default = "playground"
 }
 
 variable "billing-code" {
-    type = string
+    type    = string
     default = "010"
 }
 
 variable "vmname" {
-    type = string
+    type    = string
     default = "linux"
+}
+
+variable "vmsize" {
+    type    = string
+    default = "Standard_DS1_v2"
 }
 
 variable "admin_password" {
@@ -48,7 +53,7 @@ variable "ssh_public_key" {
 }
 
 variable "users" {
-    type = list
+    type    = list
     default = ["root", "azureuser"] 
 }
 
