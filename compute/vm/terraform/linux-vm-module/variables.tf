@@ -15,6 +15,8 @@ variable "location" {
 variable "zone" {
     type      = list(string)
     default = ["1", "2", "3"]
+    # type = list(number)
+	# default = [1,2,3]
 }
 
 variable "vnet_subnet_id" {
@@ -47,9 +49,14 @@ variable "admin_password" {
     default = "4wPcRFreYIVfCUYros9a"
 }
 variable "ssh_public_key" {
-    type    = string
-    description="The location of the public key"
-    default = "~/.ssh/id_rsa.pub"
+    type        = string
+    description ="The location of the public key"
+    default     = "~/.ssh/id_rsa.pub"
+}
+
+variable "cloud_init_file" {
+    type        ="string"
+    default     ="linuxvm.txt"
 }
 
 variable "users" {
