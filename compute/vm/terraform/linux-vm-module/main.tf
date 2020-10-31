@@ -49,7 +49,8 @@ resource "azurerm_linux_virtual_machine" "linuxvm" {
     location                            = var.location
     resource_group_name                 = var.resource_group
     network_interface_ids               = [azurerm_network_interface.linuxvmnic.id]
-    size                                = "Standard_DS1_v2"
+    size                                = var.vmsize
+
     #zone                                = var.zone
 
     os_disk {
@@ -86,7 +87,9 @@ resource "azurerm_linux_virtual_machine" "linuxvm" {
     }
 }
 
-
+output vmmsize {
+    value = azurerm_linux_virtual_machine.linuxvm.size
+}
 
 ####
 
