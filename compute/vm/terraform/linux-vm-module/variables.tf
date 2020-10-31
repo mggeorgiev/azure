@@ -80,4 +80,3 @@ variable "namingprefixes" {
         "northeurope"   = "neu1"
     }
 }
-
