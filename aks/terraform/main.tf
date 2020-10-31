@@ -20,12 +20,12 @@ resource "azurerm_kubernetes_cluster" "demo" {
         os_disk_size_gb = 30
 
         # Required for advanced networking
-        vnet_subnet_id = "${azurerm_subnet.cluster.id}"
+        vnet_subnet_id = azurerm_subnet.cluster.id
     }
 
     service_principal {
-        client_id     = "${azuread_service_principal.sp-aks.application_id}"
-        client_secret = "${random_string.sp-aks-password.result}"
+        client_id     = azuread_service_principal.sp-aks.application_id
+        client_secret = random_string.sp-aks-password.result
     }
 
     network_profile {
