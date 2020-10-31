@@ -1,0 +1,16 @@
+#cloud-config
+
+package_update: true
+package_upgrade: true
+#packages:
+#    - nginx-full
+disk_setup:
+    ephemeral0:
+        table_type: mbr
+        layout: [[100], [82]] # 100 % of the partition, 82 is the code for swapfile
+        overwrite: true
+fs_setup:
+    - device: ephemeral0.1
+      filesystem: swap
+mounts:
+    - ["ephemeral0.1", "none", "swap", "sw", "0", "0"]

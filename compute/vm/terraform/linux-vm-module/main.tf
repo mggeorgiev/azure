@@ -77,6 +77,7 @@ resource "azurerm_linux_virtual_machine" "linuxvm" {
         #public_key                      = tls_private_key.example_ssh.public_key_openssh
     }
 
+    custom_data                         = base64encode(file(linuxvm.txt))  
     # boot_diagnostics {
     #     storage_account_uri             = azurerm_storage_account.playgroundstorageaccount.primary_blob_endpoint
     # }
