@@ -55,7 +55,7 @@ variable "ssh_public_key" {
 }
 
 variable "cloud_init_file" {
-    type        ="string"
+    type        =string
     default     ="linuxvm.txt"
 }
 
