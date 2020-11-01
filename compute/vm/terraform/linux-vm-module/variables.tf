@@ -12,9 +12,9 @@ variable "location" {
     default = "eastus"
 }
 
-variable "zone" {
+variable "zones" {
     type      = list(string)
-    default = ["1", "2", "3"]
+    default = ["1"]
     # type = list(number)
 	# default = [1,2,3]
 }
