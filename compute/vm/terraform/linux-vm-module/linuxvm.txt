@@ -21,4 +21,7 @@ fs_setup:
 mounts:
     - ["ephemeral0.1", "none", "swap", "sw", "0", "0"]
 runcmd:
-  - curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash
+    - curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash
+    - curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add -
+    - echo "deb https://apt.kubernetes.io/ kubernetes-xenial main" | sudo tee -a /etc/apt/sources.list.d/kubernetes.list
+    - sudo apt-get update
