@@ -95,7 +95,7 @@ output vmmsize {
 
 # Create Network Security Group and rule
 resource "azurerm_network_security_group" "linuxvmnsg" {
-    name                = "${var.resource_group}-NSG"
+    name                = "${var.vmname}-NSG"
     location            = var.location
     resource_group_name = var.resource_group
     
