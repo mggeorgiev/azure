@@ -2,7 +2,8 @@
 
 package_update: true
 package_upgrade: true
-#packages:
+packages:
+    - azure-cli
 #    - nginx-full
 disk_setup:
     ephemeral0:
