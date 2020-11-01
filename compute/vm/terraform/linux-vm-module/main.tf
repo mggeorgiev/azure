@@ -41,7 +41,7 @@ resource "tls_private_key" "example_ssh" {
   algorithm = "RSA"
   rsa_bits = 4096
 }
-output "tls_private_key" { value = "${tls_private_key.example_ssh.private_key_pem}" }
+output "tls_private_key" { value = tls_private_key.example_ssh.private_key_pem }
 
 # Create virtual machine
 resource "azurerm_linux_virtual_machine" "linuxvm" {
@@ -50,8 +50,7 @@ resource "azurerm_linux_virtual_machine" "linuxvm" {
     resource_group_name                 = var.resource_group
     network_interface_ids               = [azurerm_network_interface.linuxvmnic.id]
     size                                = var.vmsize
-
-    #zone                                = var.zone
+    zone                                = [var.zone]
 
     os_disk {
         name                            = "${var.vmname}OsDisk"
