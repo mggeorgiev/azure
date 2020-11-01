@@ -50,7 +50,7 @@ resource "azurerm_linux_virtual_machine" "linuxvm" {
     resource_group_name                 = var.resource_group
     network_interface_ids               = [azurerm_network_interface.linuxvmnic.id]
     size                                = var.vmsize
-    zone                                = [var.zone]
+    zones                               = var.zones
 
     os_disk {
         name                            = "${var.vmname}OsDisk"
