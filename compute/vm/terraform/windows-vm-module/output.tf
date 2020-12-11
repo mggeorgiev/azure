@@ -1,3 +1,3 @@
 output vmmsize {
-    value = azurerm_linux_virtual_machine.linuxvm.size
+    value = azurerm_windows_virtual_machine.windowsvm.size
 }

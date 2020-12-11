@@ -73,7 +73,7 @@ resource "azurerm_windows_virtual_machine" "windowsvm" {
 }
 
 # Create Network Security Group and rule
-resource "azurerm_network_security_group" "linuxvmnsg" {
+resource "azurerm_network_security_group" "windowsnsg" {
     name                = "${var.vmname}-NSG"
     location            = var.location
     resource_group_name = var.resource_group
