@@ -43,7 +43,8 @@ resource "azurerm_windows_virtual_machine" "windowsvm" {
     location                        = var.location
     resource_group_name             = var.resource_group
     network_interface_ids           = [azurerm_network_interface.windowsvmnic.id]
-    size                            = var.vmsize
+    size                            = "Standard_DS1_v2"
+    #zone                                = var.zone
 
     os_disk {
         name                        = "${var.vmname}OsDisk"
@@ -67,9 +68,9 @@ resource "azurerm_windows_virtual_machine" "windowsvm" {
     # }
 
     tags = {
-        environment = var.environementtag,
-        billing-code = var.billing-code
-
+        environment                 = var.environementtag,
+        billing-code                = var.billing-code
+    }
 }
 
 # Create Network Security Group and rule
