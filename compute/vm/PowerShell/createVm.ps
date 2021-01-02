@@ -1,0 +1,20 @@
+$resourceGroup = "PowerShellRGlod14992796"
+$location = "eastus"
+$vmName = "Challenge-VM"
+$cred = Get-Credential -Message "Enter a username and password for the virtual machine."
+
+$subnetConfig = New-AzureRmVirtualNetworkSubnetConfig -Name FrontEnd -AddressPrefix 192.168.1.0/24
+
+$vnet = New-AzureRmVirtualNetwork -ResourceGroupName $resourceGroup -Location $location -Name ChallengeVnet -AddressPrefix 192.168.0.0/16 -Subnet $subnetConfig
+
+$pip = New-AzureRmPublicIpAddress -ResourceGroupName $resourceGroup -Location $location -Name "challengepubdns$(Get-Random)" -AllocationMethod Static -IdleTimeoutInMinutes 5
+
+$nsgRuleRDP = New-AzureRmNetworkSecurityRuleConfig -Name ChallengeRDP  -Protocol Tcp -Direction Inbound -Priority 500 -SourceAddressPrefix * -SourcePortRange * -DestinationAddressPrefix * -DestinationPortRange 3389 -Access Allow
+
+$nsg = New-AzureRmNetworkSecurityGroup -ResourceGroupName $resourceGroup -Location $location -Name ChallengeNSG -SecurityRules $nsgRuleRDP
+
+$nic = New-AzureRmNetworkInterface -Name ChallengeNIC -ResourceGroupName $resourceGroup -Location $location -SubnetId $vnet.Subnets[0].Id -PublicIpAddressId $pip.Id -NetworkSecurityGroupId $nsg.Id
+
+$vmConfig = New-AzureRmVMConfig -VMName $vmName -VMSize Standard_D1_v2 | Set-AzureRmVMOperatingSystem -Windows -ComputerName $vmName -Credential $cred | Set-AzureRmVMSourceImage -PublisherName MicrosoftWindowsServer -Offer WindowsServer -Skus 2016-Datacenter -Version latest | Add-AzureRmVMNetworkInterface -Id $nic.Id
+
+New-AzureRmVM -ResourceGroupName $resourceGroup -Location $location -VM $vmConfig
