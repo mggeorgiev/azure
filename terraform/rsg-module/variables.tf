@@ -8,10 +8,6 @@ variable "rg_location" {
     type = string
 }
 
-variable "rg_zone" {
-    type = string
-}
-
 variable "environementtag" {
     type = string
 }
