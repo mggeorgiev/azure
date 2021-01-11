@@ -1,0 +1,11 @@
+Get-AzProviderOperation "Microsoft.Compute/virtualmachines/*" | FT Operation, Description -AutoSize
+
+Get-AzRoleDefinition -Name "Virtual Machine Contributor" | ConvertTo-Json | Out-File $home\clouddrive\VMOperatorRole.json
+
+# "IsCustom": true,
+# Lets you view, start and stop virtual machines.
+# "Microsoft.Compute/*/read",
+# "Microsoft.Compute/virtualMachines/start/action",
+# "Microsoft.Compute/virtualMachines/deallocate/action"
+
+New-AzRoleDefinition -InputFile "VMOperatorRole.json"
