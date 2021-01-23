@@ -42,7 +42,7 @@ resource "azurerm_public_ip" "site2sitevpnpip" {
 
 
 resource "azurerm_local_network_gateway" "onpremise" {
-  name                = "OnPremNet"
+  name                = var.local_gateway_name
   resource_group_name = module.site_2_site_vpn_rsg.rg_name
   location            = module.site_2_site_vpn_rsg.rg_location
   gateway_address     = var.onprempip
@@ -50,7 +50,7 @@ resource "azurerm_local_network_gateway" "onpremise" {
 }
 
 resource "azurerm_virtual_network_gateway" "site2sitevpngw" {
-  name                = "VNET1GW"
+  name                = var.gateway_name
   location            = module.site_2_site_vpn_rsg.rg_location
   resource_group_name = module.site_2_site_vpn_rsg.rg_name
 
@@ -59,7 +59,7 @@ resource "azurerm_virtual_network_gateway" "site2sitevpngw" {
 
   active_active = false
   enable_bgp    = false
-  sku           = "Basic"
+  sku           = var.gw_sku
 
   ip_configuration {
     name                          = "vnetGatewayConfig"
@@ -70,7 +70,7 @@ resource "azurerm_virtual_network_gateway" "site2sitevpngw" {
 }
 
 resource "azurerm_virtual_network_gateway_connection" "onpremise" {
-  name                = "onpremise"
+  name                = var.connection_name
   location            = module.site_2_site_vpn_rsg.rg_location
   resource_group_name = module.site_2_site_vpn_rsg.rg_name
 
