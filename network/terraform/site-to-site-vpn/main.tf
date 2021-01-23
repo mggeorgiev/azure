@@ -1,7 +1,7 @@
 module "site_2_site_vpn_rsg" {
     source              = "./../../../../azure/terraform/rsg-module"
-    rg_name             = "site-to-site-vpn"
-    rg_location         = "westeurope"
+    rg_name             = var.resource_group_name
+    rg_location         = var.resource_group_location
     environementtag     = "production"
     billing-code        = "100"
 }
@@ -9,8 +9,8 @@ module "site_2_site_vpn_rsg" {
 module "site_2_site_vpn_vnet" {
     source              = "./../../../../azure/terraform/vnet-module"
     resource_group      = module.site_2_site_vpn_rsg.rg_name
-    address_space       = ["10.4.0.0/16"]
-    address_prefixes    = ["10.4.0.0/24"]
+    address_space       = var.address_space
+    address_prefixes    = var.address_prefixes
     location            = module.site_2_site_vpn_rsg.rg_location
     environementtag     = "production"
     billing-code        = "100"
@@ -21,15 +21,6 @@ resource "azurerm_subnet" "GatewaySubnet" {
   resource_group_name  = module.site_2_site_vpn_rsg.rg_name
   virtual_network_name = module.site_2_site_vpn_vnet.vnet_name
   address_prefixes     = ["10.4.255.0/27"]
-
-#   delegation {
-#     name = "delegation"
-
-#     service_delegation {
-#       name    = "Microsoft.ContainerInstance/containerGroups"
-#       actions = ["Microsoft.Network/virtualNetworks/subnets/join/action", "Microsoft.Network/virtualNetworks/subnets/prepareNetworkPolicies/action"]
-#     }
-#   }
 }
 
 resource "azurerm_public_ip" "site2sitevpnpip" {
@@ -42,7 +33,7 @@ resource "azurerm_public_ip" "site2sitevpnpip" {
 
 
 resource "azurerm_local_network_gateway" "onpremise" {
-  name                = "OnPremNet"
+  name                = var.local_gateway_name
   resource_group_name = module.site_2_site_vpn_rsg.rg_name
   location            = module.site_2_site_vpn_rsg.rg_location
   gateway_address     = var.onprempip
@@ -50,7 +41,7 @@ resource "azurerm_local_network_gateway" "onpremise" {
 }
 
 resource "azurerm_virtual_network_gateway" "site2sitevpngw" {
-  name                = "VNET1GW"
+  name                = var.gateway_name
   location            = module.site_2_site_vpn_rsg.rg_location
   resource_group_name = module.site_2_site_vpn_rsg.rg_name
 
@@ -59,7 +50,7 @@ resource "azurerm_virtual_network_gateway" "site2sitevpngw" {
 
   active_active = false
   enable_bgp    = false
-  sku           = "Basic"
+  sku           = var.gw_sku
 
   ip_configuration {
     name                          = "vnetGatewayConfig"
@@ -70,7 +61,7 @@ resource "azurerm_virtual_network_gateway" "site2sitevpngw" {
 }
 
 resource "azurerm_virtual_network_gateway_connection" "onpremise" {
-  name                = "onpremise"
+  name                = var.connection_name
   location            = module.site_2_site_vpn_rsg.rg_location
   resource_group_name = module.site_2_site_vpn_rsg.rg_name
 
