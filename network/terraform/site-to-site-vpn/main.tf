@@ -20,7 +20,7 @@ resource "azurerm_subnet" "GatewaySubnet" {
   name                 = "GatewaySubnet"
   resource_group_name  = module.site_2_site_vpn_rsg.rg_name
   virtual_network_name = module.site_2_site_vpn_vnet.vnet_name
-  address_prefixes     = ["10.4.255.0/27"]
+  address_prefixes     = var.gw_address_prefixes
 }
 
 resource "azurerm_public_ip" "site2sitevpnpip" {
@@ -37,7 +37,7 @@ resource "azurerm_local_network_gateway" "onpremise" {
   resource_group_name = module.site_2_site_vpn_rsg.rg_name
   location            = module.site_2_site_vpn_rsg.rg_location
   gateway_address     = var.onprempip
-  address_space       = ["192.168.88.0/24", "192.168.8.0/24"]
+  address_space       = var.local_address_space
 }
 
 resource "azurerm_virtual_network_gateway" "site2sitevpngw" {

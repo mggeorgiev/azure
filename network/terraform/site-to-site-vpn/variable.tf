@@ -17,6 +17,16 @@ variable "address_prefixes" {
     default=["10.4.0.0/24"]
 }
 
+variable "gw_address_prefixes" {
+    type=list(string)
+    default=["10.4.255.0/27"]
+}
+
+variable "local_address_space" {
+    type=list(string)
+    default = ["192.168.88.0/24"]
+}
+
 variable "onprempip" {
     type = string
 }
@@ -41,7 +51,3 @@ variable "local_gateway_name" {
 variable "connection_name" {
     type    = string
 }
-<<<<<<< HEAD
-
-=======
->>>>>>> 8ef1cf5c547f4b65df703a297776a7a14dfc3159
