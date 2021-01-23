@@ -41,4 +41,7 @@ variable "local_gateway_name" {
 variable "connection_name" {
     type    = string
 }
+<<<<<<< HEAD
 
+=======
+>>>>>>> 8ef1cf5c547f4b65df703a297776a7a14dfc3159
