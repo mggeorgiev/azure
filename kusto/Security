@@ -1,0 +1,5 @@
+SecurityEvent
+| where TimeGenerated > ago(7d)
+| where EventID == 12345
+| summarize count() by Computer, bin(TimeGenerated, 1h)
+| render timechart

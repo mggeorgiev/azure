@@ -1,0 +1,4 @@
+union Update, workspace("contosofinance-it").Update, workspace("c65g7445-914x-4h7j-6nbv-w876499056").Update
+| where TimeGenerated >= ago(24h)
+| where UpdateState == "Needed"
+| summarize dcount(Computer) by Classification
