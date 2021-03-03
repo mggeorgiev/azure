@@ -57,4 +57,21 @@ az network private-endpoint create \
     --vnet-name $vnetName --subnet $subnetName \
     --private-connection-resource-id $id \
     --group-ids sqlServer \
-    --connection-name
+    --connection-name sqlConnection
+
+az sql db list --server $sqlserver --resource-group $resourceGroup --output tsv
+
+az sql db show --server $sqlserver --resource-group $resourceGroup --name $databaseName
+
+az sql server conn-policy show --server $sqlserver --resource-group $resourceGroup
+
+# update connectivity policy 
+az sql server conn-policy update --server $sqlserver --resource-group $resourceGroup --connection-type Proxy ##Redirect / Default
+# confirm update
+az sql server conn-policy show --server $sqlserver --resource-group $resourceGroup
+
+#Condifure defaults
+#az configure --defaults group=$resourceGroup sql-server=$logical_server
+
+#Use az configure --list-defaults to find the location of the file and clean it 
+#az configure --list-defaults
