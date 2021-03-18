@@ -24,9 +24,12 @@ echo ''
 echo '---'
 echo ''
 
-read -p 'To upgrade the cluster type yes: ' resourceGroup
+read -p 'Target version (you cannot skip major versions): ' KUBERNETES_VERSION
+read -p 'To upgrade the cluster type yes: ' upgrade
 
-az aks upgrade \
-    --resource-group $resourceGroup \
-    --name $aksName \
-    --kubernetes-version KUBERNETES_VERSION
+if [ $upgrade="yes" ]; then
+    az aks upgrade \
+        --resource-group $resourceGroup \
+        --name $aksName \
+        --kubernetes-version KUBERNETES_VERSION
+fi
