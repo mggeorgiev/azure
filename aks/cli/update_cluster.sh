@@ -31,5 +31,5 @@ if [ $upgrade="yes" ]; then
     az aks upgrade \
         --resource-group $resourceGroup \
         --name $aksName \
-        --kubernetes-version KUBERNETES_VERSION
+        --kubernetes-version $KUBERNETES_VERSION
 fi
