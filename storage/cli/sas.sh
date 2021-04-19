@@ -1,8 +1,11 @@
 #!/bin/bash
 
-read -p 'Please enter the desired subscription id: ' subscription
-az account set --subscription $subscription
-az account list --output table
+read -p 'Please enter the desired subscription id. Leave blank for default: ' subscription
+
+if [ $subscription="yes" ]; then
+        az account set --subscription $subscription
+        az account list --output table
+fi
 
 echo ''
 echo '---'
@@ -26,4 +29,4 @@ echo '---'
 echo ''
 
 end=`date -u -d "30 minutes" '+%Y-%m-%dT%H:%MZ'`
-az storage account generate-sas --permissions $permissions --account-name $account_name --services $services --resource-types sco --expiry $end -o tsv
+az storage account generate-sas --account-key 00000000 --https-only --permissions $permissions --account-name $account_name --services $services --resource-types sco --expiry $end -o tsv
