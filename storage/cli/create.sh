@@ -1,11 +1,35 @@
 #!/bin/bash
 
-rsg="rsg-sandbox"
+read -p 'Please enter the desired subscription id: ' subscription
+az account set --subscription $subscription
+az account list --output table
+
+echo ''
+echo '---'
+echo ''
+
+read -p 'Please enter the desired resource group name: ' rsg
+
+echo ''
+echo '---'
+echo ''
+
+read -p 'Please enter the desired storage account SKU ex. Standard_RAGRS: ' sku
+
+echo ''
+echo '---'
+echo ''
+
+read -p 'Please enter the desired storage account mane: ' name
+
+echo ''
+echo '---'
+echo ''
 
 STORAGEACCT=$(az storage account create \
         --resource-group $rsg \
-        --name healthcareapp$RANDOM \
-        --sku Standard_RAGRS \
+        --name $name$RANDOM \
+        --sku $sku \
         --output tsv \
         --query "name")
 
@@ -27,4 +51,4 @@ az storage account show \
   # WestUS2 and CentralUS
   #az storage account failover --name $STORAGEACCT
   
-  "connectionString": "DefaultEndpointsProtocol=https;EndpointSuffix=core.windows.net;AccountName=healthcareapp8567;AccountKey=F3FzZdvgTdR+Lft608dLU1ErVj95e9eH7vSTAeiro22NtrXIIzLS+rOgaMY8ARm7HHbuyi/0mEIVA66/s+ynMQ=="
+  #"connectionString": "DefaultEndpointsProtocol=https;EndpointSuffix=core.windows.net;AccountName=healthcareapp8567;AccountKey=F3FzZdvgTdR+Lft608dLU1ErVj95e9eH7vSTAeiro22NtrXIIzLS+rOgaMY8ARm7HHbuyi/0mEIVA66/s+ynMQ=="
