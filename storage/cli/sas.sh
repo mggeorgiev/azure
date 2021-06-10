@@ -29,4 +29,6 @@ echo '---'
 echo ''
 
 end=`date -u -d "30 minutes" '+%Y-%m-%dT%H:%MZ'`
-az storage account generate-sas --account-key 00000000 --https-only --permissions $permissions --account-name $account_name --services $services --resource-types sco --expiry $end -o tsv
+AZURE_STORAGE_SAS_TOKEN=(az storage account generate-sas --account-key 00000000 --https-only --permissions $permissions --account-name $account_name --services $services --resource-types sco --expiry $end -o tsv)
+
+echo $AZURE_STORAGE_SAS_TOKEN
