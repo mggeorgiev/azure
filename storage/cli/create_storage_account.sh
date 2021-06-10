@@ -20,7 +20,7 @@ echo ''
 echo '---'
 echo ''
 
-read -p 'Please enter the desired storage account mane: ' name
+read -p 'Please enter the desired storage account name: ' name
 
 echo ''
 echo '---'
