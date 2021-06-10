@@ -57,3 +57,7 @@ az storage account show \
         --query "[primaryEndpoints, secondaryEndpoints, geoReplicationStats]"
 
 az storage blob service-properties update --account-name $STORAGE_ACC_NAME --static-website --404-document error.html --index-document index.html
+
+
+subscription_id=$(az account show --subscription $subscription --query id --output tsv)
+az ad sp create-for-rbac --name "sp-${STORAGE_ACC_NAME}" --role contributor --scopes "/subscriptions/${subscription_id}/resourceGroups/${rsg}" --sdk-auth
