@@ -19,7 +19,7 @@ SubscriptionId=$(az account show -s $subcription --output tsv --query '{Subscrip
 TenantId=$(az account show -s $subcription --output tsv --query '{TenantId:tenantId}')
 
 #Request the Access Token
-response=$(az account get-access-token)
+response=$(az account get-access-token --subscription $subscription)
 token=$(echo $response | jq ".accessToken" -r)
 
 curl -X GET -H "Authorization: Bearer $token" -H "Content-Type:application/json" -H "Accept:application/json" https://management.azure.com/subscriptions/$subid/providers/Microsoft.Web/sites\?api-version\=2016-08-01 | jq .
