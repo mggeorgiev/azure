@@ -27,6 +27,8 @@ az storage blob service-properties update \
                                     --resource-group $resourceGroup \
                                     --location $location
 
-az cdn profile create -n davefancyapp123cdn --sku Standard_Microsoft
+origin=$(az storage account show -g $resourceGroup -n $storageAccountname --query primaryEndpoints.web --output tsv)
 
-az cdn endpoint create -n davefancyapp123cdnendpoint --profile-name davefancyapp123cdn --origin davefancyapp123.z21.web.core.windows.net --origin-host-header davefancyapp123.z21.web.core.windows.net --enable-compression
+az cdn profile create -n $rolename --sku Standard_Microsoft
+
+az cdn endpoint create -n ${rolename}cdnendpoint --profile-name $rolename --origin $origin --origin-host-header $origin --enable-compression
