@@ -1,5 +1,5 @@
 module "site_2_site_vpn_rsg" {
-    source              = "github.com/mggeorgiev/azure/tree/master/resource_group/terraform"
+    source              = "git::https://github.com/mggeorgiev/azure.git//resource_group/terraform"
     rg_name             = var.resource_group_name
     rg_location         = var.resource_group_location
     environementtag     = "production"
@@ -7,7 +7,7 @@ module "site_2_site_vpn_rsg" {
 }
 
 module "site_2_site_vpn_vnet" {
-    source              = "github.com/mggeorgiev/azure/tree/master/network/terraform/vnet-module"
+    source              = "git::https://github.com/mggeorgiev/azure.git//network/terraform/vnet-module"
     resource_group      = module.site_2_site_vpn_rsg.rg_name
     address_space       = var.address_space
     address_prefixes    = var.address_prefixes
