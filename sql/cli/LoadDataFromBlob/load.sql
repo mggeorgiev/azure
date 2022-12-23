@@ -1,17 +1,18 @@
 IF SCHEMA_ID('DataLoad') IS NULL
 EXEC ('CREATE SCHEMA DataLoad')
+
 CREATE TABLE DataLoad.store_returns
 (
     sr_returned_date_sk             bigint,
     sr_return_time_sk               bigint,
-    sr_item_sk                      bigint           ,
+    sr_item_sk                      bigint,
     sr_customer_sk                  bigint,
     sr_cdemo_sk                     bigint,
     sr_hdemo_sk                     bigint,
     sr_addr_sk                      bigint,
     sr_store_sk                     bigint,
     sr_reason_sk                    bigint,
-    sr_ticket_number                bigint           ,
+    sr_ticket_number                bigint,
     sr_return_quantity              integer,
     sr_return_amt                   float,
     sr_return_tax                   float,
